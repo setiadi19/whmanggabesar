@@ -12,7 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = "django-insecure-d$hmp)f4-m*yju#@nex!^dku0v5pmh1s6!5wwmg7k9*%=r!xil"
 DEBUG = True
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*.vercel.app']
+
 
 # Application definition
 INSTALLED_APPS = [
