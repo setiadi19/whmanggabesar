@@ -46,7 +46,7 @@
   // Checkboxes
 
   $container.append(
-    '<h5>jutttt </h5><hr class="mb-2"/>'
+    '<h5>Tampilan</h5><hr class="mb-2"/>'
   )
 
   var $dark_mode_checkbox = $('<input />', {
