@@ -285,6 +285,31 @@
         }
       }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".send-notification").on("click", function () {
+          const tele_id = $(this).data("tele-id");
+          const sn_baru = $(this).data("sn-baru");
+          const segmentasi_unit = $(this).data("segmentasi-unit");
+          const nama_teknisi = $(this).data("nama-teknisi");
+
+          $.post("/dashboard/send_notification/", {
+            tele_id: tele_id,
+            sn_baru: sn_baru,
+            segmentasi_unit: segmentasi_unit,
+            nama_teknisi: nama_teknisi,
+          })
+            .done(function () {
+              alert("Notifikasi berhasil dikirim!");
+            })
+            .fail(function (jqXHR) {
+              alert("Error: " + jqXHR.responseJSON.message); // Tampilkan kesalahan jika ada
+            });
+        });
+      });
+    </script>
     <!-- jQuery -->
     <script src="{% static 'AdminLTE-3.2.0/plugins/jquery/jquery.min.js'%}"></script>
     <!-- Bootstrap 4 -->
