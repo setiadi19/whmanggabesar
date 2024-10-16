@@ -46,31 +46,35 @@
                           </button>
                         </div>
                       </div>
-                      <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>TEKNISI</th>
-                              <th class="text-center">PROVISIONING</th>
-                              <th class="text-center">ASSURANCE</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for item in data_stock_nte %}
-                            <tr>
-                              <td>{{ item.NAMAA_TEKNISI }}</td>
-                              <td class="text-center">{{ item.PROVISIONING }}</td>
-                              <td class="text-center">{{ item.ASSURANCE }}</td>
-                            </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-
+                     <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th>TEKNISI</th>
+                                <th class="text-center">PROVISIONING</th>
+                                <th class="text-center">ASSURANCE</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for item in data_stock_nte %}
+                              <tr>
+                                <td>{{ item.NAMAA_TEKNISI }}</td>
+                                <td class="text-center">{{ item.PROVISIONING }}</td>
+                                <td class="text-center">{{ item.ASSURANCE }}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      
                         <div class="mt-4">
                           <h6 class="card-title">Update Status NTE</h6>
                           <p class="card-text">Klik tombol di bawah ini untuk memperbarui status NTE melalui Telegram.</p>
                           <a href="https://t.me/whktz_bot" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Buka Telegram untuk Update</a>
                         </div>
+                    </div>
+
 
                       </div>
                       <!-- /.card-body -->
