@@ -42,19 +42,24 @@
             </div>
             <div class="card-body">
               {% for item in stock_data %}
-                {% if "PRECON" in item.description and item.stock > 0 %}
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="small font-weight-bold">{{ item.description }}</h4>
-                    <h4 class="small font-weight-bold text-right">{{ item.stock }} PCS</h4>
-                  </div>
-                  <div class="progress mb-4">
-                    <div class="progress-bar {% if item.stock < 20 %} bg-danger {% elif item.stock >= 20 and item.stock <= 50 %} bg-warning {% else %} bg-success {% endif %}"
-                         role="progressbar"
-                         style="width: {{ item.stock }}%"
-                         aria-valuenow="{{ item.stock }}"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                  </div>
+                {% if "PRECON" in item.description or "PS" in item.description %}
+                  {% if item.stock > 0 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4 class="small font-weight-bold">{{ item.description }}</h4>
+                      <h4 class="small font-weight-bold text-right">{{ item.stock }} PCS</h4>
+                    </div>
+                    <div class="progress mb-4">
+                      <div class="progress-bar 
+                          {% if item.stock < 20 %} bg-danger 
+                              {% elif item.stock >= 20 and item.stock <= 50 %} bg-warning 
+                              {% else %} bg-success {% endif %}"
+                          role="progressbar"
+                          style="width: {{ item.stock }}%"
+                          aria-valuenow="{{ item.stock }}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                    </div>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </div>
