@@ -42,11 +42,11 @@
             </div>
             <div class="card-body">
               {% for item in stock_data %}
-                {% if "PRECON" in item.description or "PS" in item.description %}
+                {% if "PRECON" in item.description or "PS" in item.description or "AC-OF" in item.description %}
                   {% if item.stock > 0 %}
                     <div class="d-flex justify-content-between align-items-center">
                       <h4 class="small font-weight-bold">{{ item.description }}</h4>
-                      <h4 class="small font-weight-bold text-right">{{ item.stock }} PCS</h4>
+                      <h4 class="small font-weight-bold text-right">{{ item.stock }} {% if "AC-OF" in item.description %} METER {% else %} PCS {% endif %}</h4>
                     </div>
                     <div class="progress mb-4">
                       <div class="progress-bar 
