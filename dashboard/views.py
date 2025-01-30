@@ -95,7 +95,7 @@ def dashboard(request):
     for row in data:
         if row.get('TELE_ID'):  # Pastikan TELE_ID tidak kosong
             filtered_data.append({
-                'TGL_PENGELUARAN': row.get('TGL PENGELUARAN', ''),
+                'TGL_PENGELUARAN': row.get('TGL', ''),
                 'SN_BARU': row.get('SN', ''),  # Perbaiki agar sesuai dengan header di Google Sheets
                 'SEGMENTASI_UNIT': row.get('UNIT', ''),
                 'NIK_TEKNISI': row.get('NIK', ''),
