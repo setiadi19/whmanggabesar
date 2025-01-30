@@ -37,47 +37,47 @@ from django.views.decorators.csrf import csrf_exempt
 #     return render(request, 'dashboard.html', context)  # Pastikan template ini ada
 
 
-# @csrf_exempt
-# def send_notification(request):
-#     if request.method == 'POST':
-#         tele_id = request.POST.get('tele_id')
-#         sn_baru = request.POST.get('sn_baru')
-#         segmentasi_unit = request.POST.get('segmentasi_unit')
-#         nama_teknisi = request.POST.get('nama_teknisi')
+@csrf_exempt
+def send_notification(request):
+    if request.method == 'POST':
+        tele_id = request.POST.get('tele_id')
+        sn_baru = request.POST.get('sn_baru')
+        segmentasi_unit = request.POST.get('segmentasi_unit')
+        nama_teknisi = request.POST.get('nama_teknisi')
 
-#         # Memastikan bahwa tele_id tidak kosong
-#         if not tele_id:
-#             return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
+        # Memastikan bahwa tele_id tidak kosong
+        if not tele_id:
+            return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
 
-#         # Ganti TOKEN_BOT dengan token bot Telegram Anda
-#         bot_token = '6766498766:AAELsIzI1i4N5WRR96qnBzhyQHJ7Z5YQsJ4'
+        # Ganti TOKEN_BOT dengan token bot Telegram Anda
+        bot_token = '6766498766:AAELsIzI1i4N5WRR96qnBzhyQHJ7Z5YQsJ4'
         
-#         # Buat pesan yang akan dikirim
-#         message = (
-#             f"SN BARU: {sn_baru}\n"
-#             f"SEGMENTASI UNIT: {segmentasi_unit}\n"
-#             f"NAMA TEKNISI: {nama_teknisi}\n"
-#             "Segera lakukan set install di aplikasi MYI."
-#         )
+        # Buat pesan yang akan dikirim
+        message = (
+            f"SN BARU: {sn_baru}\n"
+            f"SEGMENTASI UNIT: {segmentasi_unit}\n"
+            f"NAMA TEKNISI: {nama_teknisi}\n"
+            "Segera lakukan set install di aplikasi MYI."
+        )
 
-#         # URL API untuk mengirim pesan
-#         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+        # URL API untuk mengirim pesan
+        url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         
-#         payload = {
-#             'chat_id': tele_id,
-#             'text': message
-#         }
+        payload = {
+            'chat_id': tele_id,
+            'text': message
+        }
 
-#         # Mengirim notifikasi
-#         response = requests.post(url, data=payload)
+        # Mengirim notifikasi
+        response = requests.post(url, data=payload)
 
-#         # Memeriksa respon
-#         if response.status_code == 200:
-#             return HttpResponse(status=204)  # Tidak ada konten
-#         else:
-#             return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
+        # Memeriksa respon
+        if response.status_code == 200:
+            return HttpResponse(status=204)  # Tidak ada konten
+        else:
+            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
 
-#     return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
 
 
 
@@ -111,39 +111,39 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-@csrf_exempt
-def send_notification(request):
-    if request.method == 'POST':
-        tele_id = request.POST.get('tele_id')
-        sn_baru = request.POST.get('sn_baru')
-        segmentasi_unit = request.POST.get('segmentasi_unit')
-        nama_teknisi = request.POST.get('nama_teknisi')
+# @csrf_exempt
+# def send_notification(request):
+#     if request.method == 'POST':
+#         tele_id = request.POST.get('tele_id')
+#         sn_baru = request.POST.get('sn_baru')
+#         segmentasi_unit = request.POST.get('segmentasi_unit')
+#         nama_teknisi = request.POST.get('nama_teknisi')
 
-        # Jika TELE_ID kosong, kembalikan respons error
-        if not tele_id or tele_id.strip() == "":
-            return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
+#         # Jika TELE_ID kosong, kembalikan respons error
+#         if not tele_id or tele_id.strip() == "":
+#             return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
 
-        bot_token = 'TOKEN_BOT_TELEGRAM_ANDA'
-        message = (
-            f"SN BARU: {sn_baru}\n"
-            f"SEGMENTASI UNIT: {segmentasi_unit}\n"
-            f"NAMA TEKNISI: {nama_teknisi}\n"
-            "Segera lakukan set install di aplikasi MYI."
-        )
+#         bot_token = 'TOKEN_BOT_TELEGRAM_ANDA'
+#         message = (
+#             f"SN BARU: {sn_baru}\n"
+#             f"SEGMENTASI UNIT: {segmentasi_unit}\n"
+#             f"NAMA TEKNISI: {nama_teknisi}\n"
+#             "Segera lakukan set install di aplikasi MYI."
+#         )
 
-        url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+#         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         
-        payload = {
-            'chat_id': tele_id.strip(),  # Bersihkan spasi tambahan
-            'text': message
-        }
+#         payload = {
+#             'chat_id': tele_id.strip(),  # Bersihkan spasi tambahan
+#             'text': message
+#         }
 
-        response = requests.post(url, data=payload)
+#         response = requests.post(url, data=payload)
 
-        if response.status_code == 200:
-            return HttpResponse(status=204)  
-        else:
-            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
+#         if response.status_code == 200:
+#             return HttpResponse(status=204)  
+#         else:
+#             return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
 
