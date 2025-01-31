@@ -24,8 +24,7 @@ def send_notification(request):
         # Token bot Telegram
         bot_token = '6766498766:AAELsIzI1i4N5WRR96qnBzhyQHJ7Z5YQsJ4'
 
-        # ID Channel Telegram (Pastikan bot sudah jadi admin di channel)
-        channel_id = '-1002495857351'
+       
 
         # Buat pesan yang akan dikirim
         message = (
@@ -46,12 +45,7 @@ def send_notification(request):
             'parse_mode': 'Markdown'
         }
 
-        # Payload untuk mengirim ke Channel
-        # payload_channel = {
-        #     'chat_id': channel_id,  # Kirim ke Channel
-        #     'text': message,
-        #     'parse_mode': 'Markdown'
-        # }
+      
 
         # Kirim pesan ke pengguna
         response_user = requests.post(url, data=payload_user)
