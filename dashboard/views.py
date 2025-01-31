@@ -37,9 +37,11 @@ def send_notification(request):
         # URL API untuk mengirim pesan
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         
+
         payload = {
             'chat_id': tele_id,
-            'text': message
+            'text': message,
+            'parse_mode': 'Markdown'  # Menentukan penggunaan Markdown untuk format
         }
 
         # Mengirim notifikasi
