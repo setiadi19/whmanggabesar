@@ -12,42 +12,58 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def send_notification(request):
     if request.method == 'POST':
-        tele_id = request.POST.get('tele_id')
+        tele_id = request.POST.get('tele_id')  # ID pengguna dari form
         sn_baru = request.POST.get('sn_baru')
         segmentasi_unit = request.POST.get('segmentasi_unit')
         nama_teknisi = request.POST.get('nama_teknisi')
 
-        # Memastikan bahwa tele_id tidak kosong
+        # Pastikan TELE_ID tidak kosong
         if not tele_id:
             return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
 
-        # Ganti TOKEN_BOT dengan token bot Telegram Anda
+        # Token bot Telegram
         bot_token = '6766498766:AAELsIzI1i4N5WRR96qnBzhyQHJ7Z5YQsJ4'
-        
+
+        # ID Channel Telegram (Pastikan bot sudah jadi admin di channel)
+        channel_id = '-1002495857351'
+
         # Buat pesan yang akan dikirim
         message = (
-            f"SN BARU: {sn_baru}\n"
-            f"SEGMENTASI UNIT: {segmentasi_unit}\n"
-            f"NAMA TEKNISI: {nama_teknisi}\n"
-            "Segera lakukan set install di aplikasi MYI."
+            f"🔔 *Notifikasi Baru!*\n\n"
+            f"📌 *SN BARU:* {sn_baru}\n"
+            f"🔍 *SEGMENTASI UNIT:* {segmentasi_unit}\n"
+            f"👨‍🔧 *NAMA TEKNISI:* {nama_teknisi}\n\n"
+            f"⚠️ Segera lakukan set install di aplikasi MYI.
         )
 
         # URL API untuk mengirim pesan
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         
-        payload = {
-            'chat_id': tele_id,
-            'text': message
+        # Payload untuk mengirim ke TELE_ID pengguna
+        payload_user = {
+            'chat_id': tele_id,  # Kirim ke pengguna berdasarkan form
+            'text': message,
+            'parse_mode': 'Markdown'
         }
 
-        # Mengirim notifikasi
-        response = requests.post(url, data=payload)
+        # Payload untuk mengirim ke Channel
+        # payload_channel = {
+        #     'chat_id': channel_id,  # Kirim ke Channel
+        #     'text': message,
+        #     'parse_mode': 'Markdown'
+        # }
 
-        # Memeriksa respon
-        if response.status_code == 200:
-            return HttpResponse(status=204)  # Tidak ada konten
+        # Kirim pesan ke pengguna
+        response_user = requests.post(url, data=payload_user)
+
+        # Kirim pesan ke Channel
+        # response_channel = requests.post(url, data=payload_channel)
+
+        # Cek apakah berhasil dikirim ke user
+        if response_user.status_code == 200:
+            return HttpResponse(status=204)  # Tidak ada konten (sukses)
         else:
-            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
+            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi ke pengguna! Respon: {response_user.text}'}, status=500)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
 
