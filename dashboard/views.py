@@ -12,52 +12,44 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def send_notification(request):
     if request.method == 'POST':
-        tele_id = request.POST.get('tele_id')  # ID pengguna dari form
+        tele_id = request.POST.get('tele_id')
         sn_baru = request.POST.get('sn_baru')
         segmentasi_unit = request.POST.get('segmentasi_unit')
         nama_teknisi = request.POST.get('nama_teknisi')
 
-        # Pastikan TELE_ID tidak kosong
+        # Memastikan bahwa tele_id tidak kosong
         if not tele_id:
             return JsonResponse({'status': 'error', 'message': 'TELE_ID tidak ditemukan atau kosong!'}, status=400)
 
-        # Token bot Telegram
+        # Ganti TOKEN_BOT dengan token bot Telegram Anda
         bot_token = '6766498766:AAELsIzI1i4N5WRR96qnBzhyQHJ7Z5YQsJ4'
-
-       
-
-        # Buat pesan yang akan dikirim
+        
+       # Buat pesan yang akan dikirim
         message = (
             f"🔔 *Notifikasi Baru!*\n\n"
             f"📌 *SN BARU:* {sn_baru}\n"
             f"🔍 *SEGMENTASI UNIT:* {segmentasi_unit}\n"
             f"👨‍🔧 *NAMA TEKNISI:* {nama_teknisi}\n\n"
-            f"⚠️ Segera lakukan set install di aplikasi MYI.
+            f"⚠️ Segera lakukan set install di aplikasi MYI.\n"
+            f"Jika TIDAK bisa, segera hubungi Admin WH."
         )
 
         # URL API untuk mengirim pesan
         url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
         
-        # Payload untuk mengirim ke TELE_ID pengguna
-        payload_user = {
-            'chat_id': tele_id,  # Kirim ke pengguna berdasarkan form
-            'text': message,
-            'parse_mode': 'Markdown'
+        payload = {
+            'chat_id': tele_id,
+            'text': message
         }
 
-      
+        # Mengirim notifikasi
+        response = requests.post(url, data=payload)
 
-        # Kirim pesan ke pengguna
-        response_user = requests.post(url, data=payload_user)
-
-        # Kirim pesan ke Channel
-        # response_channel = requests.post(url, data=payload_channel)
-
-        # Cek apakah berhasil dikirim ke user
-        if response_user.status_code == 200:
-            return HttpResponse(status=204)  # Tidak ada konten (sukses)
+        # Memeriksa respon
+        if response.status_code == 200:
+            return HttpResponse(status=204)  # Tidak ada konten
         else:
-            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi ke pengguna! Respon: {response_user.text}'}, status=500)
+            return JsonResponse({'status': 'error', 'message': f'Gagal mengirim notifikasi! Respon: {response.text}'}, status=500)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request!'}, status=400)
 
@@ -91,5 +83,3 @@ def dashboard(request):
     }
     
     return render(request, 'dashboard.html', context)
-
-
